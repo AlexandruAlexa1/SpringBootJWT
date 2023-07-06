@@ -8,5 +8,8 @@ public class SecurityConstant {
 	public static final String TOKEN_CANNOT_BE_VERIFIED = "Token cannot be verified";
 	public static final String TOKEN_REQUIRED = "Token is required";
 	public static final String SUBJECT_REQUIRED = "Subject is required";
+	public static final String OPTIONS_METHOD = "OPTIONS";
+	public static final String[] PUBLIC_URLS = { "/auth/login", "/auth/register" };
+	public static final String JWT_PREFIX = "Bearer "; 
 }
  
