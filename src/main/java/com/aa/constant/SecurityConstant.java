@@ -10,6 +10,8 @@ public class SecurityConstant {
 	public static final String SUBJECT_REQUIRED = "Subject is required";
 	public static final String OPTIONS_METHOD = "OPTIONS";
 	public static final String[] PUBLIC_URLS = { "/auth/login", "/auth/register" };
-	public static final String JWT_PREFIX = "Bearer "; 
+	public static final String JWT_PREFIX = "Bearer ";
+	public static final String JWT_HEADER = "JWT";
+	public static final String REGISTATION_SUCCESS = "Registration completed successfully.";
 }
  
