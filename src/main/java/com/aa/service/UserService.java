@@ -5,8 +5,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.aa.domain.Role;
 import com.aa.domain.User;
 import com.aa.exception.DuplicateEmailException;
 import com.aa.exception.UserNotFoundException;
@@ -17,6 +19,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository repo;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	public List<User> listAll() {
 		return repo.findAll();
@@ -35,8 +40,11 @@ public class UserService {
 			} else {
 				checkDuplicateEmail(userInForm.getEmail());
 			}
+			
+			encodePassword(userInForm);
 		} else {
 			checkDuplicateEmail(userInForm.getEmail());
+			encodePassword(userInForm);
 		}
 		
 		return repo.save(userInForm);
@@ -75,5 +83,26 @@ public class UserService {
 			throw new UserNotFoundException("Could not find any User with email: " + email);
 		}
 	}
+	
+	public void register(User user) throws DuplicateEmailException {
+		checkDuplicateEmail(user.getEmail());
+		setUserDetails(user);
+		encodePassword(user);
+		
+		repo.save(user);
+	}
+
+	private void encodePassword(User user) {
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
+	}
+
+	private void setUserDetails(User user) {
+		user.setEnabled(true);
+		user.setNonLocked(true);
+		user.getRoles().add(new Role(3));
+	}
+	
+	
 	
 }
