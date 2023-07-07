@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,6 +35,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpResponse response = new HttpResponse(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), ex.getMessage());
 		
 		return new ResponseEntity<HttpResponse>(response, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<HttpResponse> handleBadCredentialsException(BadCredentialsException ex) {
+		HttpResponse response = new HttpResponse(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+		
+		return new ResponseEntity<HttpResponse>(response, HttpStatus.UNAUTHORIZED);
 	}
 
 	@Override
